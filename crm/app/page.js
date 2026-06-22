@@ -32,6 +32,7 @@ export default async function Page() {
   return (
     <>
       <header>
+    <a href="/api/login" style={{ float: 'right', color: '#bcd3c6', fontSize: 13, textDecoration: 'underline' }}>Log out</a>
         <h1>Austral Timber — Outreach CRM</h1>
         <div className="sub">Gulf radiata pine outreach · email + WhatsApp · single source of truth</div>
       </header>
