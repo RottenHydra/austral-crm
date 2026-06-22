@@ -6,7 +6,8 @@ export const dynamic = 'force-dynamic';
 async function getData() {
   try {
     const c = await sql`SELECT company,country,city,segment,email,phone,phone_e164,whatsapp_ok,
-      email_sent,whatsapp_sent,touches,response,next_step
+      email_sent,whatsapp_sent,touches,response,next_step,
+      (SELECT detail FROM events e WHERE e.company=contacts.company AND e.type='reply' ORDER BY e.created_at DESC LIMIT 1) AS last_message
       FROM contacts ORDER BY (response <> 'No reply') DESC, (email_sent IS NOT NULL) DESC, company`;
     const s = await sql`SELECT
       count(*)::int total,
