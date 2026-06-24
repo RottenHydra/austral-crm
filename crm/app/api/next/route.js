@@ -1,12 +1,16 @@
 import { sql } from '@vercel/postgres';
+import { unstable_noStore as noStore } from 'next/cache';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
 
 // Channel orchestration: ONE source of truth both bots query. Middle East excluded (no shipping via Hormuz).
 const PRIO = `CASE WHEN segment ~* 'timber|wood|pallet|lumber|veneer|plywood|manufact|joinery|furniture|door|sawmill|packaging|crate|pellet' THEN 0 ELSE 1 END`;
 const EX = `country NOT IN ('UAE','Saudi Arabia','Oman','Qatar','Kuwait','Bahrain','Iraq','Iran')`;
 
 export async function GET(request) {
+    noStore();
     const p = new URL(request.url).searchParams;
     const channel = p.get('channel') || 'email';
     const mode = p.get('mode') || 'first';
