@@ -1,9 +1,13 @@
 import { sql } from '@vercel/postgres';
+import { unstable_noStore as noStore } from 'next/cache';
 import ContactsTable from '../components/ContactsTable';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
 
 async function getData() {
+  noStore();
   try {
     const c = await sql`SELECT c.company,c.country,c.city,c.segment,c.email,c.phone,c.phone_e164,c.whatsapp_ok,
       c.email_sent,c.whatsapp_sent,c.touches,c.response,c.next_step,
